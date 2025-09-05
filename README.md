@@ -241,7 +241,7 @@
                 <strong>キャストの追加方法：</strong><br>
                 下記のGoogle Sheetsに「名前」と「アカウント名」を追加するだけで、このページに自動で反映されます！
             </p>
-            <a href="https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit" target="_blank" class="sheets-link">
+            <a href="https://docs.google.com/spreadsheets/d/1J8v5iVOLX5erxUmcyt6TmlsIX-kEXVRBtb2PAt50XHM/edit?gid=0#gid=0" target="_blank" class="sheets-link">
                 📝 キャスト管理シートを開く
             </a>
             <p style="margin-top: 15px; font-size: 0.9rem; color: #666;">
