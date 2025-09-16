@@ -241,7 +241,7 @@
                 <strong>キャストの追加方法：</strong><br>
                 下記のGoogle Sheetsに「名前」と「アカウント名」を追加するだけで、このページに自動で反映されます！
             </p>
-            <a href="https://docs.google.com/spreadsheets/d/1J8v5iVOLX5erxUmcyt6TmlsIX-kEXVRBtb2PAt50XHM/edit?gid=0#gid=0" target="_blank" class="sheets-link">
+            <a href="https://docs.google.com/spreadsheets/d/1J8v5iVOLX5erxUmcyt6TmlsIX-kEXVRBtb2PAt50XHM/edit" target="_blank" class="sheets-link">
                 📝 キャスト管理シートを開く
             </a>
             <p style="margin-top: 15px; font-size: 0.9rem; color: #666;">
@@ -266,7 +266,7 @@
 
         <div id="errorMessage" class="error" style="display: none;">
             <h3>⚠️ データの読み込みに失敗しました</h3>
-            <p>Google Sheetsへの接続に問題があるか、ネットワーク接続を確認してください。</p>
+            <p>Google Sheetsが「ウェブに公開」されているか確認してください。またはネットワーク接続を確認してください。</p>
             <button class="refresh-btn" onclick="refreshData()">再試行</button>
         </div>
 
@@ -285,8 +285,7 @@
         </div>
         
         <div class="follow-grid" id="followGrid">
-            <!-- キャストカードはJavaScriptで生成される -->
-        </div>
+            </div>
 
         <div class="last-updated" id="lastUpdated" style="display: none;">
             最終更新: <span id="updateTime"></span>
@@ -304,11 +303,12 @@
     <script>
         let castList = [];
 
-        // ★ ここにあなたのGoogle SheetsのIDを設定してください ★
-        // スプレッドシートのURLから取得: https://docs.google.com/spreadsheets/d/【https://docs.google.com/spreadsheets/d/e/2PACX-1vRmalfOSQycmb448k4I9XF1fC_Ru0OFdTVYZf1mzIrs441w3vObhZE2-kQy23J437koqO41z799NKZ1/pubhtml?gid=625266031&single=true】/edit
-        const SHEET_ID = 'YOUR_GOOGLE_SHEET_ID_HERE';
+        // ★★★ ここにあなたのGoogle SheetsのIDを設定してください ★★★
+        // 例: https://docs.google.com/spreadsheets/d/【このID部分】/edit
+        const SHEET_ID = '1J8v5iVOLX5erxUmcyt6TmlsIX-kEXVRBtb2PAt50XHM';
         
-        // Google Sheets API URL（公開されたシートの場合）
+        // ★★★ スプレッドシートのシート名が「キャスト一覧」であることを確認してください ★★★
+        // もし違う名前にしている場合は、下のURLの「キャスト一覧」の部分を修正してください
         const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=キャスト一覧`;
 
         // TwitterアイコンのSVG
@@ -329,13 +329,14 @@
                 }
                 
                 const text = await response.text();
-                // Google Sheets APIのレスポンスは"google.visualization.Query.setResponse("で始まるので、JSONを抽出
+                // Google Sheets APIのレスポンスはJSONP形式なので、JSON部分を抽出
                 const jsonData = JSON.parse(text.substr(47).slice(0, -2));
                 
                 // データを配列に変換
                 castList = [];
                 if (jsonData.table && jsonData.table.rows) {
                     jsonData.table.rows.forEach(row => {
+                        // A列(名前)とB列(ユーザー名)が存在することを確認
                         if (row.c && row.c[0] && row.c[1]) {
                             const name = row.c[0].v;
                             const username = row.c[1].v;
@@ -360,7 +361,7 @@
                 hideLoading();
                 showError();
                 
-                // フォールバック用のデータ（初期データ）
+                // エラー時に表示するフォールバック用のデータ
                 castList = [
                     { name: 'ちひろ', username: 'chihiro20230901' },
                     { name: 'うさ', username: 'usa__Story3' },
@@ -377,7 +378,8 @@
                     { name: 'やまと', username: 'yamato_Story' },
                     { name: 'ちひろサブ', username: 'chihirosabu1101' },
                     { name: 'みずき', username: 'mizuki___Story' },
-                    { name: 'さく', username: 'saku__Story' }
+                    { name: 'さく', username: 'saku__Story' },
+                    { name: 'じゅん', username: 'Jun_Story01' } 
                 ];
                 
                 setTimeout(() => {
@@ -418,7 +420,7 @@
             grid.innerHTML = castList.map(cast => createCastCard(cast)).join('');
             castCount.textContent = castList.length;
 
-            // アニメーション
+            // カードを一枚ずつアニメーション表示
             const cards = document.querySelectorAll('.cast-card');
             cards.forEach((card, index) => {
                 card.style.opacity = '0';
@@ -456,11 +458,11 @@
         function openAllFollowPages() {
             const usernames = castList.map(cast => cast.username);
             
-            if (confirm(`${usernames.length}個のフォローページを新しいタブで開きます。よろしいですか？`)) {
+            if (confirm(`${usernames.length}個のフォローページを新しいタブで開きます。よろしいですか？\n（ブラウザのポップアップブロックにご注意ください）`)) {
                 usernames.forEach((username, index) => {
                     setTimeout(() => {
                         window.open(`https://twitter.com/intent/follow?screen_name=${username}`, '_blank');
-                    }, index * 500);
+                    }, index * 200); // 一度に開きすぎないように少しずつ遅延させる
                 });
             }
         }
@@ -477,7 +479,7 @@
                 selected.forEach((username, index) => {
                     setTimeout(() => {
                         window.open(`https://twitter.com/intent/follow?screen_name=${username}`, '_blank');
-                    }, index * 500);
+                    }, index * 200);
                 });
             }
         }
