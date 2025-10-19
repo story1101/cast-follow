@@ -228,7 +228,32 @@
         }
     </style>
 </head>
-<body>
+   <body> 
+       <div class="bulk-actions" id="bulkActions" style="display: none;">
+            <button class="bulk-follow-btn" onclick="openAllFollowPages()">
+                🚀 一括フォロー（新しいタブで開く）
+            </button>
+            <button class="bulk-follow-btn" onclick="openRandomFollow()">
+                🎲 ランダム5人フォロー
+            </button>
+        </div>
+        
+        <div class="follow-grid" id="followGrid">
+            </div>
+
+        <div class="last-updated" id="lastUpdated" style="display: none;">
+            最終更新: <span id="updateTime"></span>
+        </div>
+        
+        <div style="text-align: center; margin-top: 40px; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+            <h3 style="color: #333; margin-bottom: 15px;">🎯 埋め込み用コード</h3>
+            <p style="color: #666; margin-bottom: 15px;">このページを他のサイトに埋め込む場合は、以下のコードを使用してください：</p>
+            <textarea readonly style="width: 100%; height: 60px; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-family: monospace; background: white;">
+&lt;iframe src="このページのURL" width="100%" height="800" frameborder="0"&gt;&lt;/iframe&gt;
+            </textarea>
+        </div>
+    </div>
+    <body>
     <div class="container">
         <div class="header">
             <h1>🌟 キャスト一括フォロー</h1>
@@ -275,31 +300,6 @@
             <p>Google Sheetsから自動取得しています</p>
         </div>
         
-        <div class="bulk-actions" id="bulkActions" style="display: none;">
-            <button class="bulk-follow-btn" onclick="openAllFollowPages()">
-                🚀 一括フォロー（新しいタブで開く）
-            </button>
-            <button class="bulk-follow-btn" onclick="openRandomFollow()">
-                🎲 ランダム5人フォロー
-            </button>
-        </div>
-        
-        <div class="follow-grid" id="followGrid">
-            </div>
-
-        <div class="last-updated" id="lastUpdated" style="display: none;">
-            最終更新: <span id="updateTime"></span>
-        </div>
-        
-        <div style="text-align: center; margin-top: 40px; padding: 20px; background: #f8f9fa; border-radius: 10px;">
-            <h3 style="color: #333; margin-bottom: 15px;">🎯 埋め込み用コード</h3>
-            <p style="color: #666; margin-bottom: 15px;">このページを他のサイトに埋め込む場合は、以下のコードを使用してください：</p>
-            <textarea readonly style="width: 100%; height: 60px; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-family: monospace; background: white;">
-&lt;iframe src="このページのURL" width="100%" height="800" frameborder="0"&gt;&lt;/iframe&gt;
-            </textarea>
-        </div>
-    </div>
-    
     <script>
         let castList = [];
 
